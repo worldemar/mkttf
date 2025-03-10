@@ -82,3 +82,22 @@ from another suitable font -- i. e. falling back to another font will not work,
 and those characters will not be displayed correctly. This of course is an issue
 if you actually need those Hiragana characters to display correctly, so you cannot
 use this `mkttf` feature in that case.
+
+## Using Dockerfile ##
+
+For those who aren't too keen on installing fontforge on host system, Dockerfile is provided.
+To use it you need to have docker installed. Then follow these steps:
+- `docker build --tag=mkttf-terminus .`
+  This will build the image, containing all necessary requirements to run mkttf.
+  You will need to provide your own font files in the `dist` directory.
+- `docker run --rm -it -v .:/sources mkttf-terminus`
+  This will run the container, mounting the current directory to the container's `/sources` directory.
+  `mkttf.sh` will be available in the container's `/sources` directory. Your font files are assumed to be in `/sources/dist/terminus-*` directory.
+- `cd /sources/dist/terminus-font-4.49.1 && patch < alt/dv1.diff && patch < alt/ij1.diff && patch < alt/td1.diff`
+   This will apply the patches to the font files. See `alt` directory in Terminus font distribution for all available patches.
+- `mkdir -p /sources/dist/font && cd /sources/dist/font`
+  This will create the directory where the generated fonts will be placed.
+- `../../mkttf.sh ../terminus-font-4.49.1/ 4.49.1 TerminusTTFWindowsCustom TerminusTTFWindowsCustom --visual-studio-fixes`
+  This will generate the fonts, this will take about 30s to one minute per font-face for a total of 2-4 minutes.
+If you use Windows then you can right-click on the font files and select "Install font" to install them.
+
