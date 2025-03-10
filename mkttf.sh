@@ -156,7 +156,7 @@ for weight in Normal Bold Italic Bold-Italic; do
 		FILE_SUFFIX=$(echo "$weight"|cut -b 1|tr '[:upper:]' '[:lower:]')
 	fi
 
-	time "${MYDIR}/mkttf.py" \
+	time python3 "${MYDIR}/mkttf.py" \
 		-f "${NICEFONTNAME}" -n "${FONTNAME}${WEIGHT_NAME:+"-${WEIGHT_NAME}"}" \
 		-N "${NICEFONTNAME}${WEIGHT_NAME:+" ${WEIGHT_NAME}"}" \
 		-C "; Copyright (C) $(date '+%Y') Tilman Blumenbach; Licensed under the SIL Open Font License, Version 1.1" \
